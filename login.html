@@ -363,7 +363,22 @@ const firebaseConfig = {
   appId: "1:977697493472:web:9795fdc0138a76d0779b85",
   measurementId: "G-3FD9X45KNQ"
 };
-
+// read data from firebase
+const dbRef = ref(getDatabase(app));
+get(child(dbRef, 'users/')).then((snapshot) => {
+    if (snapshot.exists()) {
+        Object.keys(snapshot.val()).forEach((key) => {
+            console.log(`Name: ${snapshot.val()[key].name}`);
+            console.log(`Email: ${snapshot.val()[key].email}`);
+            console.log(`Subject: ${snapshot.val()[key].subject}`);
+            console.log(`Message: ${snapshot.val()[key].message}`);
+        });
+    } else {
+        console.log("No data available");
+    }
+    }).catch((error) => {
+        console.error(error);
+});
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
